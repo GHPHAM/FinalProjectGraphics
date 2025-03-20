@@ -1,4 +1,4 @@
-package FInalProject;
+package FinalProject;
 
 
 import org.lwjgl.opengl.Display;
@@ -39,24 +39,24 @@ public class FinalProject {
         glMatrixMode(GL_MODELVIEW);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     }
-                            
+
     private void drawLine(int x, int y, int xf, int yf)
     {
         glColor3f(1.0f, 0.0f, 0.0f);
         int dx, dy, d, incrementR, incrementUR, incrementDR;
-        
+
         dx = Math.abs(xf - x);
         dy = Math.abs(yf - y);
         d = 2 * dy - dx;
         incrementR = 2 * dy;
         incrementUR = 2 * (dy - dx);
         incrementDR = 2 * (dy + dx);
-        
+
         while (x < xf)
-        { 
+        {
             //System.out.println("x: " + x + ", y: " + y);
             glVertex2f(x, y);
-            
+
             if (d > 0) // positive then up right or down right
             {
                 x += (x < xf ? 1 : -1);
@@ -69,8 +69,8 @@ public class FinalProject {
                 d += incrementR;
             }
         }
-    }    
-    
+    }
+
     private void drawCircle(int x, int y, int r)
     {
         glColor3f(0.0f, 0.0f, 1.0f);
@@ -96,10 +96,10 @@ public class FinalProject {
             glVertex2f(x + (int) newX, y + (int) newY);
         }
     }
-    
+
     private void render() {
         while (!Display.isCloseRequested()) {
-            
+
                 glClear(GL_COLOR_BUFFER_BIT
                         | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity();
@@ -114,9 +114,9 @@ public class FinalProject {
                 String strLine;
                 String[] coord1Str, coord2Str, coordStr;
                 int[] coord1, coord2, coord;
-                
+
                 while ((strLine = br.readLine()) != null) { // check if line still available
-                    
+
                     String[] tokens = strLine.split(" ");
                     switch (tokens[0]) {
                         case "l":
@@ -145,7 +145,7 @@ public class FinalProject {
                 br.close();
                 in.close();
                 fstream.close();
-                
+
                 Display.update();
                 Display.sync(60);
                 //return; // DO NOT RETURN HERE OR THE WINDOWS WILL DISAPPEAR
