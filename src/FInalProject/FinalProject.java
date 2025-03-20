@@ -5,10 +5,10 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.Sys;
 
 public class FinalProject {
     // Windows
@@ -17,14 +17,6 @@ public class FinalProject {
     private static final int WINDOW_HEIGHT = 480;
     private static final int NEAR_PLANE = 100;
     private static final int FAR_PLANE = 100;
-
-    // Camera position and orientation
-    private float cameraX = 0.0f;
-    private float cameraY = 0.0f;
-    private float cameraZ = 10.0f;
-    private float cameraYaw = 0.0f;   // Rotation around Y axis (left/right)
-    private float cameraPitch = 0.0f; // Rotation around X axis (up/down)
-
 
 
     public void start() {
@@ -125,8 +117,6 @@ public class FinalProject {
                 glLoadIdentity();
                 glPointSize(1);
 
-                glRotatef(20, 1,0,0);
-                glRotatef(45, 0,1,0);
                 drawCube();
 
                 Display.update();
