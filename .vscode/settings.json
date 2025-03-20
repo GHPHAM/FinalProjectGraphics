@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "C:\\Users\\reall\\Desktop\\Cal-Poly-Spring-25\\lwjgl-2.9.2\\*.jar"
+    ]
+}

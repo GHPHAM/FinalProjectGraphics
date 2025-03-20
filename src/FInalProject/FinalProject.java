@@ -11,8 +11,21 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 public class FinalProject {
-    // global params
-    int numSegments = 500;
+    // Windows
+    // Apparently static final is the equivalence of const
+    private static final int WINDOW_WIDTH = 640;
+    private static final int WINDOW_HEIGHT = 480;
+    private static final int NEAR_PLANE = 100;
+    private static final int FAR_PLANE = 100;
+
+    // Camera position and orientation
+    private float cameraX = 0.0f;
+    private float cameraY = 0.0f;
+    private float cameraZ = 10.0f;
+    private float cameraYaw = 0.0f;   // Rotation around Y axis (left/right)
+    private float cameraPitch = 0.0f; // Rotation around X axis (up/down)
+
+
 
     public void start() {
         try {
@@ -26,132 +39,101 @@ public class FinalProject {
 
     private void createWindow() throws Exception {
         Display.setFullscreen(false);
-        Display.setDisplayMode(new DisplayMode(640, 480));
+        Display.setDisplayMode(new DisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT));
         Display.setTitle("Final Project");
         Display.create();
     }
 
     private void initGL() {
+        int width =  WINDOW_WIDTH/2;
+        int height =  WINDOW_HEIGHT/2;
+
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(0, 640, 0, 480, 1, -1);
+        glOrtho(-width, width, -height, height, -NEAR_PLANE, FAR_PLANE);
         glMatrixMode(GL_MODELVIEW);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+        glEnable(GL_DEPTH_TEST);
     }
 
-    private void drawLine(int x, int y, int xf, int yf)
-    {
+    private void drawCube() {
+        float size = 20.0f; // Cube size
+
+        // Front face (RED)
         glColor3f(1.0f, 0.0f, 0.0f);
-        int dx, dy, d, incrementR, incrementUR, incrementDR;
+        glBegin(GL_POLYGON);
+        glVertex3f(-size, -size, size);
+        glVertex3f(size, -size, size);
+        glVertex3f(size, size, size);
+        glVertex3f(-size, size, size);
+        glEnd();
 
-        dx = Math.abs(xf - x);
-        dy = Math.abs(yf - y);
-        d = 2 * dy - dx;
-        incrementR = 2 * dy;
-        incrementUR = 2 * (dy - dx);
-        incrementDR = 2 * (dy + dx);
-
-        while (x < xf)
-        {
-            //System.out.println("x: " + x + ", y: " + y);
-            glVertex2f(x, y);
-
-            if (d > 0) // positive then up right or down right
-            {
-                x += (x < xf ? 1 : -1);
-                y += (y < yf ? 1 : -1);
-                d += (y < yf ? incrementUR : incrementDR); // up right or down right
-            }
-            else // otherwise only move by x
-            {
-                x += (x < xf ? 1 : -1);
-                d += incrementR;
-            }
-        }
-    }
-
-    private void drawCircle(int x, int y, int r)
-    {
-        glColor3f(0.0f, 0.0f, 1.0f);
-        //int numSegments = 1000; // maybe 1000 is enough?
-        double theta = 2 * Math.PI / numSegments;
-
-        for (int i = 0; i < numSegments; i++) {
-            double newX = r * Math.cos(i * theta);
-            double newY = r * Math.sin(i * theta);
-            glVertex2f(x + (int) newX, y + (int) newY);
-        }
-    }
-
-    private void drawElipse(int x, int y, int xrad, int yrad)
-    {
+        // Back face (GREEN)
         glColor3f(0.0f, 1.0f, 0.0f);
-        //int numSegments = 1000; // maybe 1000 is enough?
-        double theta = 2 * Math.PI / numSegments;
+        glBegin(GL_POLYGON);
+        glVertex3f(-size, -size, -size);
+        glVertex3f(-size, size, -size);
+        glVertex3f(size, size, -size);
+        glVertex3f(size, -size, -size);
+        glEnd();
 
-        for (int i = 0; i < numSegments; i++) {
-            double newX = xrad * Math.cos(i * theta);
-            double newY = yrad * Math.sin(i * theta);
-            glVertex2f(x + (int) newX, y + (int) newY);
-        }
+        // Top face (BLUE)
+        glColor3f(0.0f, 0.0f, 1.0f);
+        glBegin(GL_POLYGON);
+        glVertex3f(-size, size, -size);
+        glVertex3f(-size, size, size);
+        glVertex3f(size, size, size);
+        glVertex3f(size, size, -size);
+        glEnd();
+
+        // Bottom face (YELLOW)
+        glColor3f(1.0f, 1.0f, 0.0f);
+        glBegin(GL_POLYGON);
+        glVertex3f(-size, -size, -size);
+        glVertex3f(size, -size, -size);
+        glVertex3f(size, -size, size);
+        glVertex3f(-size, -size, size);
+        glEnd();
+
+        // Left face (CYAN)
+        glColor3f(0.0f, 1.0f, 1.0f);
+        glBegin(GL_POLYGON);
+        glVertex3f(-size, -size, -size);
+        glVertex3f(-size, -size, size);
+        glVertex3f(-size, size, size);
+        glVertex3f(-size, size, -size);
+        glEnd();
+
+        // Right face (MAGENTA)
+        glColor3f(1.0f, 0.0f, 1.0f);
+        glBegin(GL_POLYGON);
+        glVertex3f(size, -size, -size);
+        glVertex3f(size, size, -size);
+        glVertex3f(size, size, size);
+        glVertex3f(size, -size, size);
+        glEnd();
     }
 
     private void render() {
-        while (!Display.isCloseRequested()) {
 
+        while (!Display.isCloseRequested())
+        {
+            try {
                 glClear(GL_COLOR_BUFFER_BIT
                         | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity();
                 glPointSize(1);
-                glBegin(GL_POINTS);
 
-            try {
-                FileInputStream fstream = new FileInputStream("coordinates.txt");
-                DataInputStream in = new DataInputStream(fstream);
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
-                String strLine;
-                String[] coord1Str, coord2Str, coordStr;
-                int[] coord1, coord2, coord;
-
-                while ((strLine = br.readLine()) != null) { // check if line still available
-
-                    String[] tokens = strLine.split(" ");
-                    switch (tokens[0]) {
-                        case "l":
-                            coord1Str = tokens[1].split(",");
-                            coord2Str = tokens[2].split(",");
-                            coord1 = new int[] { Integer.parseInt(coord1Str[0]), Integer.parseInt(coord1Str[1]) };
-                            coord2 = new int[] { Integer.parseInt(coord2Str[0]), Integer.parseInt(coord2Str[1]) };
-                            drawLine(coord1[0], coord1[1], coord2[0], coord2[1]);
-                            break;
-                        case "c":
-                            coordStr = tokens[1].split(",");
-                            coord = new int[] { Integer.parseInt(coordStr[0]), Integer.parseInt(coordStr[1]) };
-                            drawCircle(coord[0], coord[1], Integer.parseInt(tokens[2]));
-                            break;
-                        case "e":
-                            coord1Str = tokens[1].split(",");
-                            coord2Str = tokens[2].split(",");
-                            coord1 = new int[] { Integer.parseInt(coord1Str[0]), Integer.parseInt(coord1Str[1]) };
-                            coord2 = new int[] { Integer.parseInt(coord2Str[0]), Integer.parseInt(coord2Str[1]) };
-                            drawElipse(coord1[0], coord1[1], coord2[0], coord2[1]);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                br.close();
-                in.close();
-                fstream.close();
+                glRotatef(20, 1,0,0);
+                glRotatef(45, 0,1,0);
+                drawCube();
 
                 Display.update();
                 Display.sync(60);
                 //return; // DO NOT RETURN HERE OR THE WINDOWS WILL DISAPPEAR
             } catch (Exception e) {
             }
-            glEnd();
         }
         Display.destroy();
     }
