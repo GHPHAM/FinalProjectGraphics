@@ -155,7 +155,7 @@ public class FPCameraController {
             {
                 camera.moveUp(movementSpeed);
             }
-            if (Keyboard.isKeyDown(Keyboard.KEY_E))
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) //move down
             {
                 camera.moveDown(movementSpeed);
             }
@@ -173,16 +173,68 @@ public class FPCameraController {
         Display.destroy();
     }
 
+    private void drawCube() {
+        float size = 2.0f; // Cube size
+
+        // Front face (RED)
+        glColor3f(1.0f, 0.0f, 0.0f);
+        glBegin(GL_POLYGON);
+        glVertex3f(-size, -size, size);
+        glVertex3f(size, -size, size);
+        glVertex3f(size, size, size);
+        glVertex3f(-size, size, size);
+        glEnd();
+
+        // Back face (GREEN)
+        glColor3f(0.0f, 1.0f, 0.0f);
+        glBegin(GL_POLYGON);
+        glVertex3f(-size, -size, -size);
+        glVertex3f(-size, size, -size);
+        glVertex3f(size, size, -size);
+        glVertex3f(size, -size, -size);
+        glEnd();
+
+        // Top face (BLUE)
+        glColor3f(0.0f, 0.0f, 1.0f);
+        glBegin(GL_POLYGON);
+        glVertex3f(-size, size, -size);
+        glVertex3f(-size, size, size);
+        glVertex3f(size, size, size);
+        glVertex3f(size, size, -size);
+        glEnd();
+
+        // Bottom face (YELLOW)
+        glColor3f(1.0f, 1.0f, 0.0f);
+        glBegin(GL_POLYGON);
+        glVertex3f(-size, -size, -size);
+        glVertex3f(size, -size, -size);
+        glVertex3f(size, -size, size);
+        glVertex3f(-size, -size, size);
+        glEnd();
+
+        // Left face (CYAN)
+        glColor3f(0.0f, 1.0f, 1.0f);
+        glBegin(GL_POLYGON);
+        glVertex3f(-size, -size, -size);
+        glVertex3f(-size, -size, size);
+        glVertex3f(-size, size, size);
+        glVertex3f(-size, size, -size);
+        glEnd();
+
+        // Right face (MAGENTA)
+        glColor3f(1.0f, 0.0f, 1.0f);
+        glBegin(GL_POLYGON);
+        glVertex3f(size, -size, -size);
+        glVertex3f(size, size, -size);
+        glVertex3f(size, size, size);
+        glVertex3f(size, -size, size);
+        glEnd();
+    }
+
     private void render()
     {
         try{
-            glBegin(GL_QUADS);
-            glColor3f(1.0f,0.0f,1.0f);
-            glVertex3f( 1.0f,-1.0f,-1.0f);
-            glVertex3f(-1.0f,-1.0f,-1.0f);
-            glVertex3f(-1.0f, 1.0f,-1.0f);
-            glVertex3f( 1.0f, 1.0f,-1.0f);
-            glEnd();
+            drawCube();
         }catch(Exception e){
         }
     }

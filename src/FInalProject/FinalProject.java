@@ -1,29 +1,25 @@
 package FinalProject;
 
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
-
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.Sys;
+import org.lwjgl.util.glu.GLU;
 
 public class FinalProject {
     // Windows
     // Apparently static final is the equivalence of const
-    private static final int WINDOW_WIDTH = 640;
-    private static final int WINDOW_HEIGHT = 480;
-    private static final int NEAR_PLANE = 100;
-    private static final int FAR_PLANE = 100;
+
+    private FPCameraController fp = new FPCameraController(0f,0f,0f);
+    private DisplayMode displayMode;
 
 
     public void start() {
         try {
             createWindow();
             initGL();
-            render();
+            fp.gameLoop();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -31,82 +27,36 @@ public class FinalProject {
 
     private void createWindow() throws Exception {
         Display.setFullscreen(false);
-        Display.setDisplayMode(new DisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT));
-        Display.setTitle("Final Project");
+        DisplayMode d[] =
+        Display.getAvailableDisplayModes();
+        for (int i = 0; i < d.length; i++) {
+            if (d[i].getWidth() == 640 && d[i].getHeight() == 480
+                && d[i].getBitsPerPixel() == 32)
+            {
+                displayMode = d[i];
+                break;
+            }
+        }
+        Display.setDisplayMode(displayMode);
+        Display.setTitle("Hey Mom! I am using OpenGL!!!");
         Display.create();
     }
 
-    private void initGL() {
-        int width =  WINDOW_WIDTH/2;
-        int height =  WINDOW_HEIGHT/2;
-
+    private void initGL()
+    {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(-width, width, -height, height, -NEAR_PLANE, FAR_PLANE);
+
+        GLU.gluPerspective(100.0f, (float)displayMode.getWidth()/(float)
+            displayMode.getHeight(), 0.1f, 300.0f);
+
         glMatrixMode(GL_MODELVIEW);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
         glEnable(GL_DEPTH_TEST);
     }
-
-    private void drawCube() {
-        float size = 20.0f; // Cube size
-
-        // Front face (RED)
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glBegin(GL_POLYGON);
-        glVertex3f(-size, -size, size);
-        glVertex3f(size, -size, size);
-        glVertex3f(size, size, size);
-        glVertex3f(-size, size, size);
-        glEnd();
-
-        // Back face (GREEN)
-        glColor3f(0.0f, 1.0f, 0.0f);
-        glBegin(GL_POLYGON);
-        glVertex3f(-size, -size, -size);
-        glVertex3f(-size, size, -size);
-        glVertex3f(size, size, -size);
-        glVertex3f(size, -size, -size);
-        glEnd();
-
-        // Top face (BLUE)
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glBegin(GL_POLYGON);
-        glVertex3f(-size, size, -size);
-        glVertex3f(-size, size, size);
-        glVertex3f(size, size, size);
-        glVertex3f(size, size, -size);
-        glEnd();
-
-        // Bottom face (YELLOW)
-        glColor3f(1.0f, 1.0f, 0.0f);
-        glBegin(GL_POLYGON);
-        glVertex3f(-size, -size, -size);
-        glVertex3f(size, -size, -size);
-        glVertex3f(size, -size, size);
-        glVertex3f(-size, -size, size);
-        glEnd();
-
-        // Left face (CYAN)
-        glColor3f(0.0f, 1.0f, 1.0f);
-        glBegin(GL_POLYGON);
-        glVertex3f(-size, -size, -size);
-        glVertex3f(-size, -size, size);
-        glVertex3f(-size, size, size);
-        glVertex3f(-size, size, -size);
-        glEnd();
-
-        // Right face (MAGENTA)
-        glColor3f(1.0f, 0.0f, 1.0f);
-        glBegin(GL_POLYGON);
-        glVertex3f(size, -size, -size);
-        glVertex3f(size, size, -size);
-        glVertex3f(size, size, size);
-        glVertex3f(size, -size, size);
-        glEnd();
-    }
-
+    /*
     private void render() {
 
         while (!Display.isCloseRequested())
@@ -127,6 +77,7 @@ public class FinalProject {
         }
         Display.destroy();
     }
+    */
 
     public static void main(String[] args) {
         FinalProject basic = new FinalProject();
