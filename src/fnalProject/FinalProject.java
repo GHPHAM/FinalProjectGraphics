@@ -1,4 +1,4 @@
-package FinalProject;
+package fnalProject;
 
 
 import org.lwjgl.input.Keyboard;

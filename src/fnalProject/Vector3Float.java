@@ -1,4 +1,4 @@
-package FinalProject;
+package fnalProject;
 
 public class Vector3Float
 {
