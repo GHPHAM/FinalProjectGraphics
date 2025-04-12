@@ -5,6 +5,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
+
+import java.util.Random;
+
 import org.lwjgl.util.glu.GLU;
 
 public class FinalProject {
@@ -38,7 +41,20 @@ public class FinalProject {
             }
         }
         Display.setDisplayMode(displayMode);
-        Display.setTitle("Hey Mom! I am using OpenGL!!!");
+        String[] titles = {
+            "CHICKEN JOCKEY!!!",
+            "FLINT N STEEL!",
+            "WATER BUCKET RELEASE!",
+            "DA NETHER!",
+            "OVERWORLD!",
+            "L-L-L-LAVA CH-CH-CH-CHICKEN!",
+            "I AM STEVE!"
+        };
+
+        Random random = new Random();
+        String randomTitle = titles[random.nextInt(titles.length)];
+        Display.setTitle(randomTitle);
+
         Display.create();
     }
 
@@ -56,28 +72,6 @@ public class FinalProject {
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
         glEnable(GL_DEPTH_TEST);
     }
-    /*
-    private void render() {
-
-        while (!Display.isCloseRequested())
-        {
-            try {
-                glClear(GL_COLOR_BUFFER_BIT
-                        | GL_DEPTH_BUFFER_BIT);
-                glLoadIdentity();
-                glPointSize(1);
-
-                drawCube();
-
-                Display.update();
-                Display.sync(60);
-                //return; // DO NOT RETURN HERE OR THE WINDOWS WILL DISAPPEAR
-            } catch (Exception e) {
-            }
-        }
-        Display.destroy();
-    }
-    */
 
     public static void main(String[] args) {
         FinalProject basic = new FinalProject();

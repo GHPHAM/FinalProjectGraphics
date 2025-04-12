@@ -16,6 +16,7 @@ public class FPCameraController {
     //the rotation around the X axis of the camera
     private float pitch = 0.0f;
     private Vector3Float me;
+    private Chunk chunk;
 
     public FPCameraController(float x, float y, float z)
     {
@@ -102,6 +103,8 @@ public class FPCameraController {
     public void gameLoop()
     {
         FPCameraController camera = new FPCameraController(0, 0, 0);
+        chunk = new Chunk(-15*2 + 1,-30 + 1,-100);
+
         float dx = 0.0f;
         float dy = 0.0f;
         float dt = 0.0f; //length of frame
@@ -111,6 +114,9 @@ public class FPCameraController {
         float movementSpeed = .35f;
         //hide the mouse
         Mouse.setGrabbed(true);
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
 
         // keep looping till the display window is closed the ESC key is down
         while (!Display.isCloseRequested() &&
@@ -170,6 +176,8 @@ public class FPCameraController {
             Display.update();
             Display.sync(60);
         }
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
         Display.destroy();
     }
 
@@ -234,7 +242,7 @@ public class FPCameraController {
     private void render()
     {
         try{
-            drawCube();
+            chunk.render();
         }catch(Exception e){
         }
     }
