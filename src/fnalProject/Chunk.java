@@ -68,6 +68,7 @@ public class Chunk {
             }
         }
         VertexColorData.flip();
+        VertexTextureData.flip();
         VertexPositionData.flip();
         glBindBuffer(GL_ARRAY_BUFFER,
                 VBOVertexHandle);
@@ -81,6 +82,7 @@ public class Chunk {
                 VertexColorData,
                 GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+        
         glBindBuffer(GL_ARRAY_BUFFER, VBOTextureHandle);
         glBufferData(GL_ARRAY_BUFFER, VertexTextureData, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -138,7 +140,7 @@ public class Chunk {
     public static float[] createTexCube(float x, float y, Block block ){
         float offset = (1024f/16)/1024f;
         switch (block.GetID()){
-            case 1:
+            case 3:
                 return new float[]{
                     // BOTTOM QUAD(DOWN=+Y)
                     x + offset*3, y + offset*10,
