@@ -390,14 +390,18 @@ public class Chunk {
         for (int x = 0; x < CHUNK_SIZE; x++) {
             for (int y = 0; y < CHUNK_SIZE; y++) {
                 for (int z = 0; z < CHUNK_SIZE; z++) {
-                    if (r.nextFloat() > 0.7f) {
+                    if (r.nextFloat() > 0.833f) {
                         Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass);
-                    } else if (r.nextFloat() > 0.4f) {
+                    } else if (r.nextFloat() > 0.666f) {
                         Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Dirt);
-                    } else if (r.nextFloat() > 0.2f) {
+                    } else if (r.nextFloat() > 0.50f) {
                         Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Water);
+                    } else if (r.nextFloat() > 0.333f) {
+                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Sand);
+                    } else if (r.nextFloat() > 0.166f) {
+                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Stone);
                     } else {
-                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass); //BlockType_Default does not exist
+                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Bedrock); //BlockType_Default does not exist
                     }
                 }
             }
