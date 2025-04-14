@@ -41,57 +41,74 @@ public class Chunk {
         glPopMatrix();
     }
 
-    public void rebuildMesh( float startX, float startY, float startZ)
-    {
+    public void rebuildMesh(float startX, float startY, float startZ) {
         VBOColorHandle = glGenBuffers();
         VBOVertexHandle = glGenBuffers();
         VBOTextureHandle = glGenBuffers();
-        
-        SimplexNoise noise = new SimplexNoise(10, .25, r.nextInt());
-        
-        
+
+        SimplexNoise noise = new SimplexNoise(10, 0.25, r.nextInt());
+        float[][] heightMap = new float[CHUNK_SIZE][CHUNK_SIZE];
+
+        for (int x = 0; x < CHUNK_SIZE; x++) {
+            for (int z = 0; z < CHUNK_SIZE; z++) {
+                float noiseVal = (float) noise.getNoise((int)(x * 0.1f), (int)(z * 0.1f));
+                float smoothedHeight = CHUNK_SIZE / 2f + noiseVal * (CHUNK_SIZE / 2f);
+                heightMap[x][z] = smoothedHeight;
+            }
+        }
+
         FloatBuffer VertexPositionData = BufferUtils.createFloatBuffer(
-                (CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
+                CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * 6 * 12);
         FloatBuffer VertexColorData = BufferUtils.createFloatBuffer(
-                (CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
+                CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * 6 * 12);
         FloatBuffer VertexTextureData = BufferUtils.createFloatBuffer(
-                (CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
-        
-        for (float x = 0; x < CHUNK_SIZE; x += 1) {
-            for (float z = 0; z < CHUNK_SIZE; z += 1) {
-                for (float y = 0; y < CHUNK_SIZE; y++) {
-                    float height = (startY + (int)(100*noise.getNoise((int)x,(int) y,(int) z)) * CUBE_LENGTH);
-                    VertexPositionData.put(
-                            createCube(
-                                (float) (startX + x * CUBE_LENGTH),
-                                (float) (startY + y * CUBE_LENGTH), // NEED TO CHANGE FOR DYNAMIC HEIGHT
-                                (float) (startZ + z * CUBE_LENGTH)));
-                    VertexColorData.put(
-                            createCubeVertexCol( getCubeColor( Blocks[(int) x][(int) y][(int) z])));
-                    VertexTextureData.put(
-                            createTexCube((float) 0, (float) 0, Blocks[(int)(x)][(int) (y)][(int)(z)]));
-                    if (y > height){
-                        break;
+                CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * 6 * 12);
+
+        for (int x = 0; x < CHUNK_SIZE; x++) {
+            for (int z = 0; z < CHUNK_SIZE; z++) {
+                int maxY = (int) heightMap[x][z];
+                for (int y = 0; y <= maxY && y < CHUNK_SIZE; y++) {
+
+                    Block.BlockType type;
+                    if (y == 0) {
+                        type = Block.BlockType.BlockType_Bedrock;
+                    } else if (y < maxY * 0.25f) {
+                        type = Block.BlockType.BlockType_Stone;
+                    } else if (y < maxY * 0.5f) {
+                        type = Block.BlockType.BlockType_Dirt;
+                    } else if (y < maxY * 0.75f) {
+                        type = Block.BlockType.BlockType_Grass;
+                    } else if (y < maxY) {
+                        type = Block.BlockType.BlockType_Sand;
+                    } else {
+                        type = Block.BlockType.BlockType_Water;
                     }
+
+                    Blocks[x][y][z] = new Block(type);
+
+                    VertexPositionData.put(createCube(
+                            startX + x * CUBE_LENGTH,
+                            startY + y * CUBE_LENGTH,
+                            startZ + z * CUBE_LENGTH));
+
+                    VertexColorData.put(createCubeVertexCol(getCubeColor(Blocks[x][y][z])));
+                    VertexTextureData.put(createTexCube(0, 0, Blocks[x][y][z]));
                 }
             }
         }
+
         VertexColorData.flip();
         VertexTextureData.flip();
         VertexPositionData.flip();
-        glBindBuffer(GL_ARRAY_BUFFER,
-                VBOVertexHandle);
-        glBufferData(GL_ARRAY_BUFFER,
-                VertexPositionData,
-                GL_STATIC_DRAW);
+
+        glBindBuffer(GL_ARRAY_BUFFER, VBOVertexHandle);
+        glBufferData(GL_ARRAY_BUFFER, VertexPositionData, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ARRAY_BUFFER,
-                VBOColorHandle);
-        glBufferData(GL_ARRAY_BUFFER,
-                VertexColorData,
-                GL_STATIC_DRAW);
+
+        glBindBuffer(GL_ARRAY_BUFFER, VBOColorHandle);
+        glBufferData(GL_ARRAY_BUFFER, VertexColorData, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        
+
         glBindBuffer(GL_ARRAY_BUFFER, VBOTextureHandle);
         glBufferData(GL_ARRAY_BUFFER, VertexTextureData, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -410,7 +427,7 @@ public class Chunk {
                     } else if (r.nextFloat() > 0.166f) {
                         Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Stone);
                     } else {
-                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Bedrock); //BlockType_Default does not exist
+                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Bedrock);
                     }
                 }
             }
