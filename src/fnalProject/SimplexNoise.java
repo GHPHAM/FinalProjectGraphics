@@ -1,3 +1,4 @@
+package fnalProject;
 import java.util.Random;
 
 public class SimplexNoise {

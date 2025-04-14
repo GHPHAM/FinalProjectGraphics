@@ -46,24 +46,33 @@ public class Chunk {
         VBOColorHandle = glGenBuffers();
         VBOVertexHandle = glGenBuffers();
         VBOTextureHandle = glGenBuffers();
+        
+        SimplexNoise noise = new SimplexNoise(10, .3, r.nextInt());
+        
+        
         FloatBuffer VertexPositionData = BufferUtils.createFloatBuffer(
                 (CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
         FloatBuffer VertexColorData = BufferUtils.createFloatBuffer(
                 (CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
         FloatBuffer VertexTextureData = BufferUtils.createFloatBuffer(
                 (CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
+        
         for (float x = 0; x < CHUNK_SIZE; x += 1) {
             for (float z = 0; z < CHUNK_SIZE; z += 1) {
                 for (float y = 0; y < CHUNK_SIZE; y++) {
+                    float height = (startY + (int)(100*noise.getNoise((int)x,(int) y,(int) z)) * CUBE_LENGTH);
                     VertexPositionData.put(
                             createCube(
                                 (float) (startX + x * CUBE_LENGTH),
-                                (float) (startY + y * CUBE_LENGTH),
+                                (float) (startY + y * CUBE_LENGTH), // NEED TO CHANGE FOR DYNAMIC HEIGHT
                                 (float) (startZ + z * CUBE_LENGTH)));
                     VertexColorData.put(
                             createCubeVertexCol( getCubeColor( Blocks[(int) x][(int) y][(int) z])));
                     VertexTextureData.put(
                             createTexCube((float) 0, (float) 0, Blocks[(int)(x)][(int) (y)][(int)(z)]));
+                    if (y > height){
+                        break;
+                    }
                 }
             }
         }
