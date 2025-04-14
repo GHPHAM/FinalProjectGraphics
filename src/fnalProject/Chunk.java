@@ -47,7 +47,7 @@ public class Chunk {
         VBOVertexHandle = glGenBuffers();
         VBOTextureHandle = glGenBuffers();
         
-        SimplexNoise noise = new SimplexNoise(10, .3, r.nextInt());
+        SimplexNoise noise = new SimplexNoise(10, .25, r.nextInt());
         
         
         FloatBuffer VertexPositionData = BufferUtils.createFloatBuffer(
