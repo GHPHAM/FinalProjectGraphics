@@ -173,6 +173,7 @@ public class Chunk {
                     x + offset*4, y + offset*1,
                     x + offset*3, y + offset*1
                 };
+                
             case 1:
                 return new float[]{
                     // BOTTOM QUAD(DOWN=+Y)
@@ -209,37 +210,37 @@ public class Chunk {
             case 2:
                 return new float[]{
                     // BOTTOM QUAD(DOWN=+Y)
-                    x + offset*0, y + offset*9,
-                    x + offset*0, y + offset*10,
-                    x + offset*1, y + offset*9,
-                    x + offset*1, y + offset*10,
+                    x + offset*15, y + offset*1,
+                    x + offset*14, y + offset*1,
+                    x + offset*14, y + offset*0,
+                    x + offset*15, y + offset*0,
                     // TOP!
-                    x + offset*0, y + offset*9,
-                    x + offset*0, y + offset*10,
-                    x + offset*1, y + offset*9,
-                    x + offset*1, y + offset*10,
+                    x + offset*15, y + offset*1,
+                    x + offset*14, y + offset*1,
+                    x + offset*14, y + offset*0,
+                    x + offset*15, y + offset*0,
                     // FRONT QUAD
-                    x + offset*0, y + offset*9,
-                    x + offset*0, y + offset*10,
-                    x + offset*1, y + offset*9,
-                    x + offset*1, y + offset*10,
+                    x + offset*15, y + offset*1,
+                    x + offset*14, y + offset*1,
+                    x + offset*14, y + offset*0,
+                    x + offset*15, y + offset*0,
                     // BACK QUAD
-                    x + offset*0, y + offset*9,
-                    x + offset*0, y + offset*10,
-                    x + offset*1, y + offset*9,
-                    x + offset*1, y + offset*10,
+                    x + offset*15, y + offset*1,
+                    x + offset*14, y + offset*1,
+                    x + offset*14, y + offset*0,
+                    x + offset*15, y + offset*0,
                     // LEFT QUAD
-                    x + offset*0, y + offset*9,
-                    x + offset*0, y + offset*10,
-                    x + offset*1, y + offset*9,
-                    x + offset*1, y + offset*10,
+                    x + offset*15, y + offset*1,
+                    x + offset*14, y + offset*1,
+                    x + offset*14, y + offset*0,
+                    x + offset*15, y + offset*0,
                     // RIGHT QUAD
-                    x + offset*0, y + offset*9,
-                    x + offset*0, y + offset*10,
-                    x + offset*1, y + offset*9,
-                    x + offset*1, y + offset*10,
+                    x + offset*15, y + offset*1,
+                    x + offset*14, y + offset*1,
+                    x + offset*14, y + offset*0,
+                    x + offset*15, y + offset*0,
                 };
-            case 3:
+            case 3: // 
                 return new float[]{
                     // BOTTOM QUAD(DOWN=+Y)
                     x + offset*3, y + offset*1,
@@ -272,71 +273,71 @@ public class Chunk {
                     x + offset*2, y + offset*0,
                     x + offset*3, y + offset*0,
                 };
-            case 4:
+            case 4: // stone
                 return new float[]{
                     // BOTTOM QUAD(DOWN=+Y)
-                    x + offset*1, y + offset*0,
-                    x + offset*1, y + offset*1,
-                    x + offset*2, y + offset*0,
                     x + offset*2, y + offset*1,
+                    x + offset*1, y + offset*1,
+                    x + offset*1, y + offset*0,
+                    x + offset*2, y + offset*0,
                     // TOP!
-                    x + offset*1, y + offset*0,
-                    x + offset*1, y + offset*1,
-                    x + offset*2, y + offset*0,
                     x + offset*2, y + offset*1,
+                    x + offset*1, y + offset*1,
+                    x + offset*1, y + offset*0,
+                    x + offset*2, y + offset*0,
                     // FRONT QUAD
-                    x + offset*1, y + offset*0,
-                    x + offset*1, y + offset*1,
-                    x + offset*2, y + offset*0,
                     x + offset*2, y + offset*1,
+                    x + offset*1, y + offset*1,
+                    x + offset*1, y + offset*0,
+                    x + offset*2, y + offset*0,
                     // BACK QUAD
-                    x + offset*1, y + offset*0,
-                    x + offset*1, y + offset*1,
-                    x + offset*2, y + offset*0,
                     x + offset*2, y + offset*1,
+                    x + offset*1, y + offset*1,
+                    x + offset*1, y + offset*0,
+                    x + offset*2, y + offset*0,
                     // LEFT QUAD
-                    x + offset*1, y + offset*0,
-                    x + offset*1, y + offset*1,
-                    x + offset*2, y + offset*0,
                     x + offset*2, y + offset*1,
+                    x + offset*1, y + offset*1,
+                    x + offset*1, y + offset*0,
+                    x + offset*2, y + offset*0,
                     // RIGHT QUAD
-                    x + offset*1, y + offset*0,
-                    x + offset*1, y + offset*1,
-                    x + offset*2, y + offset*0,
                     x + offset*2, y + offset*1,
+                    x + offset*1, y + offset*1,
+                    x + offset*1, y + offset*0,
+                    x + offset*2, y + offset*0,
                 };
-            case 5:
+            case 5: // bedrock
                 return new float[]{
                     // BOTTOM QUAD(DOWN=+Y)
-                    x + offset*1, y + offset*1,
-                    x + offset*1, y + offset*2,
-                    x + offset*2, y + offset*1,
                     x + offset*2, y + offset*2,
+                    x + offset*1, y + offset*2,
+                    x + offset*1, y + offset*1,
+                    x + offset*2, y + offset*1,
                     // TOP!
-                    x + offset*1, y + offset*1,
-                    x + offset*1, y + offset*2,
-                    x + offset*2, y + offset*1,
                     x + offset*2, y + offset*2,
+                    x + offset*1, y + offset*2,
+                    x + offset*1, y + offset*1,
+                    x + offset*2, y + offset*1,
                     // FRONT QUAD
-                    x + offset*1, y + offset*1,
-                    x + offset*1, y + offset*2,
-                    x + offset*2, y + offset*1,
                     x + offset*2, y + offset*2,
+                    x + offset*1, y + offset*2,
+                    x + offset*1, y + offset*1,
+                    x + offset*2, y + offset*1,
                     // BACK QUAD
-                    x + offset*1, y + offset*1,
-                    x + offset*1, y + offset*2,
-                    x + offset*2, y + offset*1,
                     x + offset*2, y + offset*2,
+                    x + offset*1, y + offset*2,
+                    x + offset*1, y + offset*1,
+                    x + offset*2, y + offset*1,
                     // LEFT QUAD
-                    x + offset*1, y + offset*1,
-                    x + offset*1, y + offset*2,
-                    x + offset*2, y + offset*1,
                     x + offset*2, y + offset*2,
+                    x + offset*1, y + offset*2,
+                    x + offset*1, y + offset*1,
+                    x + offset*2, y + offset*1,
                     // RIGHT QUAD
-                    x + offset*1, y + offset*1,
-                    x + offset*1, y + offset*2,
-                    x + offset*2, y + offset*1,
                     x + offset*2, y + offset*2,
+                    x + offset*1, y + offset*2,
+                    x + offset*1, y + offset*1,
+                    x + offset*2, y + offset*1,
                 };
         }
         

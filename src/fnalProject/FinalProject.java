@@ -48,7 +48,8 @@ public class FinalProject {
             "DA NETHER!",
             "OVERWORLD!",
             "L-L-L-LAVA CH-CH-CH-CHICKEN!",
-            "I AM STEVE!"
+            "I AM STEVE!",
+            "hey does anyone think about the end of the universe sometimes"
         };
 
         Random random = new Random();
