@@ -210,35 +210,35 @@ public class Chunk {
             case 2:
                 return new float[]{
                     // BOTTOM QUAD(DOWN=+Y)
-                    x + offset*15, y + offset*1,
-                    x + offset*14, y + offset*1,
-                    x + offset*14, y + offset*0,
-                    x + offset*15, y + offset*0,
+                    x + offset*15, y + offset*13,
+                    x + offset*14, y + offset*13,
+                    x + offset*14, y + offset*12,
+                    x + offset*15, y + offset*12,
                     // TOP!
-                    x + offset*15, y + offset*1,
-                    x + offset*14, y + offset*1,
-                    x + offset*14, y + offset*0,
-                    x + offset*15, y + offset*0,
+                    x + offset*15, y + offset*13,
+                    x + offset*14, y + offset*13,
+                    x + offset*14, y + offset*12,
+                    x + offset*15, y + offset*12,
                     // FRONT QUAD
-                    x + offset*15, y + offset*1,
-                    x + offset*14, y + offset*1,
-                    x + offset*14, y + offset*0,
-                    x + offset*15, y + offset*0,
+                    x + offset*15, y + offset*13,
+                    x + offset*14, y + offset*13,
+                    x + offset*14, y + offset*12,
+                    x + offset*15, y + offset*12,
                     // BACK QUAD
-                    x + offset*15, y + offset*1,
-                    x + offset*14, y + offset*1,
-                    x + offset*14, y + offset*0,
-                    x + offset*15, y + offset*0,
+                    x + offset*15, y + offset*13,
+                    x + offset*14, y + offset*13,
+                    x + offset*14, y + offset*12,
+                    x + offset*15, y + offset*12,
                     // LEFT QUAD
-                    x + offset*15, y + offset*1,
-                    x + offset*14, y + offset*1,
-                    x + offset*14, y + offset*0,
-                    x + offset*15, y + offset*0,
+                    x + offset*15, y + offset*13,
+                    x + offset*14, y + offset*13,
+                    x + offset*14, y + offset*12,
+                    x + offset*15, y + offset*12,
                     // RIGHT QUAD
-                    x + offset*15, y + offset*1,
-                    x + offset*14, y + offset*1,
-                    x + offset*14, y + offset*0,
-                    x + offset*15, y + offset*0,
+                    x + offset*15, y + offset*13,
+                    x + offset*14, y + offset*13,
+                    x + offset*14, y + offset*12,
+                    x + offset*15, y + offset*12,
                 };
             case 3: // 
                 return new float[]{
