@@ -5,6 +5,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.BufferUtils;
+import java.nio.FloatBuffer;
 import org.lwjgl.Sys;
 
 public class FPCameraController {
@@ -98,6 +100,10 @@ public class FPCameraController {
         glRotatef(yaw, 0.0f, 1.0f, 0.0f);
         //translate to the position vector's location
         glTranslatef(position.x, position.y, position.z);
+        
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x).put(lPosition.y).put(lPosition.z).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     public void gameLoop()
