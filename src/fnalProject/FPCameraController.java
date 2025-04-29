@@ -25,9 +25,9 @@ public class FPCameraController {
         //instantiate position Vector3f to the x y z params.
         position = new Vector3f(x, y, z);
         lPosition = new Vector3f(x,y,z);
-        lPosition.x = 0f;
-        lPosition.y = 15f;
-        lPosition.z = 0f;
+        lPosition.x = 50f;
+        lPosition.y = 100f;
+        lPosition.z = 15f;
     }
 
     //increment the camera's current yaw rotation
@@ -100,8 +100,10 @@ public class FPCameraController {
         glRotatef(yaw, 0.0f, 1.0f, 0.0f);
         //translate to the position vector's location
         glTranslatef(position.x, position.y, position.z);
-        
+
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        // Position the light at an angle (x, y, z, w)
+        // w=0 means directional light, w=1 means point light
         lightPosition.put(lPosition.x).put(lPosition.y).put(lPosition.z).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
