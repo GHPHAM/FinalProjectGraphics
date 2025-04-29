@@ -92,12 +92,14 @@ public class Chunk {
                     Block.BlockType type;
                     if (y == 0) {
                         type = Block.BlockType.BlockType_Bedrock;
-                    } else if (y < maxY * 0.25f) {
+                    } else if (y < maxY * 0.75f) {
                         type = Block.BlockType.BlockType_Stone;
+                        /*
                     } else if (y < maxY * 0.5f) {
                         type = Block.BlockType.BlockType_Sand;
                     } else if (y < maxY * 0.75f) {
                         type = Block.BlockType.BlockType_Water;
+                        */
                     } else if (y < maxY) {
                         type = Block.BlockType.BlockType_Dirt;
                     } else {
