@@ -31,7 +31,7 @@ public class FPCameraController {
         lPosition.y = 100f;
         lPosition.z = 15f;
     }
-    
+
     public void adjustFOV(float newFOV){ // sets the camera's new FoV
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
@@ -207,7 +207,7 @@ public class FPCameraController {
             {
                 camera.increaseFOV();
                 adjustFOV(camera.fov);
-
+            }
             if (Mouse.isButtonDown(0)) {
                 if (!wasMousePressed) {
                     chunk.newChunk(); // Trigger only on the initial press
