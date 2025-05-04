@@ -131,6 +131,8 @@ public class FPCameraController {
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
+    boolean wasMousePressed = false;
+
     public void gameLoop()
     {
         FPCameraController camera = new FPCameraController(0, 0, 0);
@@ -205,6 +207,14 @@ public class FPCameraController {
             {
                 camera.increaseFOV();
                 adjustFOV(camera.fov);
+
+            if (Mouse.isButtonDown(0)) {
+                if (!wasMousePressed) {
+                    chunk.newChunk(); // Trigger only on the initial press
+                    wasMousePressed = true;
+                }
+            } else {
+                wasMousePressed = false; // Reset when mouse button is released
             }
             //set the modelview matrix back to the identity
             glLoadIdentity();

@@ -84,26 +84,44 @@ public class Chunk {
 
         NormalData.flip();
 
+        int r1 = r.nextInt(2);
+
         for (int x = 0; x < CHUNK_SIZE; x++) {
             for (int z = 0; z < CHUNK_SIZE; z++) {
                 int maxY = (int) heightMap[x][z];
                 for (int y = 0; y <= maxY && y < CHUNK_SIZE; y++) {
 
                     Block.BlockType type;
-                    if (y == 0) {
-                        type = Block.BlockType.BlockType_Bedrock;
-                    } else if (y < maxY * 0.75f) {
-                        type = Block.BlockType.BlockType_Stone;
-                        /*
-                    } else if (y < maxY * 0.5f) {
-                        type = Block.BlockType.BlockType_Sand;
-                    } else if (y < maxY * 0.75f) {
-                        type = Block.BlockType.BlockType_Water;
-                        */
-                    } else if (y < maxY) {
-                        type = Block.BlockType.BlockType_Dirt;
-                    } else {
-                        type = Block.BlockType.BlockType_Grass;
+
+                    switch (r1) {
+                    case 0: // grass world
+                        if (y == 0) {
+                            type = Block.BlockType.BlockType_Bedrock;
+                        } else if (y < maxY * 0.75f) {
+                            type = Block.BlockType.BlockType_Stone;
+                            /*
+                        } else if (y < maxY * 0.5f) {
+                            type = Block.BlockType.BlockType_Sand;
+                        } else if (y < maxY * 0.75f) {
+                            type = Block.BlockType.BlockType_Water;
+                            */
+                        } else if (y < maxY) {
+                            type = Block.BlockType.BlockType_Dirt;
+                        } else {
+                            type = Block.BlockType.BlockType_Grass;
+                        }
+                        break;
+                    default: // ocean world
+                        if (y == 0) {
+                            type = Block.BlockType.BlockType_Bedrock;
+                        } else if (y < maxY * 0.5f) {
+                            type = Block.BlockType.BlockType_Stone;
+                        } else if (y < maxY * 0.75) {
+                            type = Block.BlockType.BlockType_Sand;
+                        } else {
+                            type = Block.BlockType.BlockType_Water;
+                        }
+                        break;
                     }
 
                     Blocks[x][y][z] = new Block(type);
@@ -500,5 +518,9 @@ public class Chunk {
         StartY = startY;
         StartZ = startZ;
         rebuildMesh(startX, startY, startZ);
+    }
+
+    public void newChunk() {
+        rebuildMesh(StartX, StartY, StartZ); // Rebuild the mesh to reflect the deletion
     }
 }
