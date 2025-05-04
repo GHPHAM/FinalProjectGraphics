@@ -8,6 +8,7 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.BufferUtils;
 import java.nio.FloatBuffer;
 import org.lwjgl.Sys;
+import org.lwjgl.util.glu.GLU;
 
 public class FPCameraController {
     //3d vector to store the camera's position in
@@ -17,6 +18,7 @@ public class FPCameraController {
     private float yaw = 0.0f;
     //the rotation around the X axis of the camera
     private float pitch = 0.0f;
+    private float fov = 70;
     private Vector3Float me;
     private Chunk chunk;
 
@@ -28,6 +30,13 @@ public class FPCameraController {
         lPosition.x = 50f;
         lPosition.y = 100f;
         lPosition.z = 15f;
+    }
+    
+    public void adjustFOV(float newFOV){ // sets the camera's new FoV
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        GLU.gluPerspective(newFOV, (float)680/(float)480, 0.1f, 300.0f);
+        glMatrixMode(GL_MODELVIEW);
     }
 
     //increment the camera's current yaw rotation
@@ -88,6 +97,20 @@ public class FPCameraController {
     public void moveDown(float distance)
     {
         position.y += distance;
+    }
+    //lowers the camera's FoV
+    public void decreaseFOV()
+    {
+        if (fov > 30){
+            fov -= 1;
+        }
+    }
+    //increases the camera's FoV
+    public void increaseFOV()
+    {
+        if (fov < 110){
+            fov += 1;
+        }
     }
 
     //translates and rotate the matrix so that it looks through the camera
@@ -172,6 +195,16 @@ public class FPCameraController {
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) //move down
             {
                 camera.moveDown(movementSpeed);
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_I))//decrease FoV
+            {
+                camera.decreaseFOV();
+                adjustFOV(camera.fov);
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_O))//increase FoV
+            {
+                camera.increaseFOV();
+                adjustFOV(camera.fov);
             }
             //set the modelview matrix back to the identity
             glLoadIdentity();
