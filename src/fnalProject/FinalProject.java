@@ -70,7 +70,7 @@ public class FinalProject {
         glLoadIdentity();
 
         GLU.gluPerspective(100.0f, (float)displayMode.getWidth()/(float)
-            displayMode.getHeight(), 0.1f, 300.0f);
+            displayMode.getHeight(), 0.1f, 600.0f);
 
         glMatrixMode(GL_MODELVIEW);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
