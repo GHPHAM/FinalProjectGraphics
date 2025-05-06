@@ -612,7 +612,7 @@
                                         x + offset * 5, y + offset * 14,
                                         x + offset * 6, y + offset * 14,};
                             }
-            }
+            
 
             // default block is grass block pog
             return new float[]{
