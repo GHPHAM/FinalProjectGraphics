@@ -22,7 +22,85 @@ public class Chunk {
     private int StartX, StartY, StartZ;
     private Random r;
 
+    private int skyboxTexture;
+    private static final float SKYBOX_SIZE = 200.0f;  // Size of the skybox
+
+    private void initSkybox() {
+        try {
+            skyboxTexture = TextureLoader.getTexture("PNG",
+                ResourceLoader.getResourceAsStream("res/skybox.png")
+            ).getTextureID();
+        } catch(Exception e) {
+            System.out.println("Error loading skybox texture: " + e.getMessage());
+        }
+    }
+
+    private void renderSkybox() {
+        glPushMatrix();
+        glDisable(GL_LIGHTING);
+        glDisable(GL_DEPTH_TEST);
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, skyboxTexture);
+
+        // Center the skybox around the camera
+        glTranslatef(0, 0, 0);
+
+        // For a standard skybox texture in horizontal cross format:
+        //    [TOP]
+        // [L][F][R][B]
+        //    [BOT]
+        float ix = 1.0f/4.0f;  // Each face is 1/4 of the texture width
+        float iy = 1.0f/4.0f;  // Each face is 1/3 of the texture height
+
+        glBegin(GL_QUADS);
+
+        // Front face (middle strip)
+        glTexCoord2f(ix, 2*iy);      glVertex3f(-SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE);
+        glTexCoord2f(2*ix, 2*iy);    glVertex3f(SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE);
+        glTexCoord2f(2*ix, iy);      glVertex3f(SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE);
+        glTexCoord2f(ix, iy);        glVertex3f(-SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE);
+
+        // Back face (rightmost)
+        glTexCoord2f(3*ix, 2*iy);    glVertex3f(SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE);
+        glTexCoord2f(4*ix, 2*iy);    glVertex3f(-SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE);
+        glTexCoord2f(4*ix, iy);      glVertex3f(-SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE);
+        glTexCoord2f(3*ix, iy);      glVertex3f(SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE);
+
+        // Top face (top strip)
+        glTexCoord2f(ix, iy);         glVertex3f(-SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE);
+        glTexCoord2f(2*ix, iy);        glVertex3f(SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE);
+        glTexCoord2f(2*ix, 0);      glVertex3f(SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE);
+        glTexCoord2f(ix, 0);       glVertex3f(-SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE);
+
+        // Bottom face (bottom strip)
+        glTexCoord2f(ix, 2*iy);      glVertex3f(-SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE);
+        glTexCoord2f(2*ix, 2*iy);    glVertex3f(SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE);
+        glTexCoord2f(2*ix, 3*iy);    glVertex3f(SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE);
+        glTexCoord2f(ix, 3*iy);      glVertex3f(-SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE);
+
+        // Right face (right of front)
+        glTexCoord2f(2*ix, 2*iy);    glVertex3f(SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE);
+        glTexCoord2f(3*ix, 2*iy);    glVertex3f(SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE);
+        glTexCoord2f(3*ix, iy);      glVertex3f(SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE);
+        glTexCoord2f(2*ix, iy);      glVertex3f(SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE);
+
+        // Left face (left of front)
+        glTexCoord2f(ix, 2*iy);      glVertex3f(-SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE);
+        glTexCoord2f(0, 2*iy);       glVertex3f(-SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE);
+        glTexCoord2f(0, iy);         glVertex3f(-SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE);
+        glTexCoord2f(ix, iy);        glVertex3f(-SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE);
+
+
+        glEnd();
+
+        glEnable(GL_LIGHTING);
+        glEnable(GL_DEPTH_TEST);
+        glPopMatrix();
+    }
+
     public void render() {
+        renderSkybox();
+
         glPushMatrix();
 
         glEnableClientState(GL_NORMAL_ARRAY);
@@ -517,6 +595,7 @@ public class Chunk {
         StartX = startX;
         StartY = startY;
         StartZ = startZ;
+        initSkybox();
         rebuildMesh(startX, startY, startZ);
     }
 

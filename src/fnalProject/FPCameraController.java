@@ -35,7 +35,7 @@ public class FPCameraController {
     public void adjustFOV(float newFOV){ // sets the camera's new FoV
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        GLU.gluPerspective(newFOV, (float)680/(float)480, 0.1f, 300.0f);
+        GLU.gluPerspective(newFOV, (float)680/(float)480, 0.1f, 600.0f);
         glMatrixMode(GL_MODELVIEW);
     }
 
