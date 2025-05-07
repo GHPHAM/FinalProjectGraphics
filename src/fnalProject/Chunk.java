@@ -135,7 +135,7 @@
 
             for (int x = 0; x < CHUNK_SIZE; x++) {
                 for (int z = 0; z < CHUNK_SIZE; z++) {
-                    float noiseVal = (float) noise.getNoise((int)(x * 0.1f), (int)(z * 0.1f));
+                    float noiseVal = (float) noise.getNoise((int)(x * 0.2f), (int)(z * 0.2f));
                     float smoothedHeight = CHUNK_SIZE / 2f + noiseVal * (CHUNK_SIZE / 2f);
                     heightMap[x][z] = smoothedHeight;
                 }
@@ -154,9 +154,30 @@
                 for (int z = 0; z < CHUNK_SIZE; z++) {
                     int maxY = (int) heightMap[x][z];
                     for (int y = 0; y <= maxY && y < CHUNK_SIZE; y++) {
-                        // ...existing block creation code...
                         NormalData.put(createCubeNormal());
                     }
+                }
+            }
+
+            // NETHER PORTAL
+            int portalBaseX = CHUNK_SIZE / 2;
+            int portalBaseZ = CHUNK_SIZE / 2;
+            int portalBaseY = (int) heightMap[portalBaseX][portalBaseZ] + 1;
+            for (int y = 0; y < 5; y++) {
+                for (int x = 0; x < 4; x++) {
+                    int worldX = portalBaseX + x;
+                    int worldY = portalBaseY + y;
+                    int worldZ = portalBaseZ;
+                    boolean isEdge = (x == 0 || x == 3 || y == 0 || y == 4);
+                    Block.BlockType type = isEdge ? Block.BlockType.BlockType_Obsidian : Block.BlockType.BlockType_Portal;
+                    Blocks[worldX][worldY][worldZ] = new Block(type);
+                    VertexPositionData.put(createCube(
+                            startX + worldX * CUBE_LENGTH,
+                            startY + worldY * CUBE_LENGTH,
+                            startZ + worldZ * CUBE_LENGTH));
+                    VertexColorData.put(createCubeVertexCol(getCubeColor(Blocks[worldX][worldY][worldZ])));
+                    VertexTextureData.put(createTexCube(0, 0, Blocks[worldX][worldY][worldZ]));
+                    NormalData.put(createCubeNormal());
                 }
             }
 
@@ -215,31 +236,6 @@
                 }
             }
 
-// === NETHER PORTAL ===
-            int portalBaseX = CHUNK_SIZE / 2;
-            int portalBaseZ = CHUNK_SIZE / 2;
-            int portalBaseY = (int) heightMap[portalBaseX][portalBaseZ] + 1;
-            for (int y = 0; y < 5; y++) {
-                for (int x = 0; x < 4; x++) {
-                    int worldX = portalBaseX + x;
-                    int worldY = portalBaseY + y;
-                    int worldZ = portalBaseZ;
-                    if (worldX < 0 || worldX >= CHUNK_SIZE || worldY < 0 || worldY >= CHUNK_SIZE || worldZ < 0 || worldZ >= CHUNK_SIZE) {
-                        continue;
-                    }
-                    boolean isEdge = (x == 0 || x == 3 || y == 0 || y == 4);
-                    Block.BlockType type = isEdge ? Block.BlockType.BlockType_Obsidian : Block.BlockType.BlockType_Portal;
-                    Blocks[worldX][worldY][worldZ] = new Block(type);
-                    VertexPositionData.put(createCube(
-                            startX + worldX * CUBE_LENGTH,
-                            startY + worldY * CUBE_LENGTH,
-                            startZ + worldZ * CUBE_LENGTH));
-                    VertexColorData.put(createCubeVertexCol(getCubeColor(Blocks[worldX][worldY][worldZ])));
-                    VertexTextureData.put(createTexCube(0, 0, Blocks[worldX][worldY][worldZ]));
-                    NormalData.put(createCubeNormal());
-                }
-            }
-            
             VertexColorData.flip();
             VertexTextureData.flip();
             VertexPositionData.flip();
